@@ -10,7 +10,7 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh 'echo $PATH'
+                sh 'echo Webhooks is working'
                 sh 'mvn clean deploy'
             }
         }
