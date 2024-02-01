@@ -10,10 +10,15 @@ pipeline {
     stages {
         stage("Build") {
             steps {
-                sh 'echo Webhooks is working'
-                sh 'mvn clean deploy'
+                sh 'mvn clean deploy -Dmaven.test.skip=true'
             }
         }
+        stage("Test") {
+            steps {
+                sh 'mvn surefire-report:report'
+            }
+        }
+        
         stage('SonarQube analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner'
