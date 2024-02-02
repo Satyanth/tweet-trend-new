@@ -11,15 +11,10 @@ pipeline {
         stage("Build") {
             steps {
                 sh 'echo "build stage"'
-                sh 'mvn clean deploy -Dmaven.test.skip=true'
+                sh 'mvn clean deploy'
             }
         }
-        stage("Test") {
-            steps {
-                sh 'mvn surefire-report:report'
-            }
-        }
-        
+    
         stage('SonarQube analysis') {
             environment {
                 scannerHome = tool 'sonar-scanner'
@@ -31,5 +26,4 @@ pipeline {
     }
   }
     }
-     
 }
