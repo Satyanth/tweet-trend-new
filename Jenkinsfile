@@ -1,4 +1,6 @@
 def registry = 'https://devproject3159.jfrog.io'
+def imageName = 'devproject3159.jfrog.io/docker-trial/ttrend'
+def version   = '2.1.2'
 pipeline {
     agent {
         node {
@@ -24,7 +26,7 @@ pipeline {
                           "files": [
                             {
                               "pattern": "jarstaging/(*)",
-                              "target": "dev_proj-libs-release/{1}",
+                              "target": "docker-trial//{1}",
                               "flat": "false",
                               "props" : "${properties}",
                               "exclusions": [ "*.sha1", "*.md5"]
@@ -38,6 +40,28 @@ pipeline {
             
             }
         }   
+    }
+           
+    stage(" Docker Build ") {
+      steps {
+        script {
+           echo '<--------------- Docker Build Started --------------->'
+           app = docker.build(imageName+":"+version)
+           echo '<--------------- Docker Build Ends --------------->'
+        }
+      }
+    }
+
+            stage (" Docker Publish "){
+        steps {
+            script {
+               echo '<--------------- Docker Publish Started --------------->'  
+                docker.withRegistry(registry, 'jfrog-artifact'){
+                    app.push()
+                }    
+               echo '<--------------- Docker Publish Ended --------------->'  
+            }
+        }
     }
 
         
