@@ -24,7 +24,7 @@ pipeline {
                           "files": [
                             {
                               "pattern": "jarstaging/(*)",
-                              "target": "jfrog-pro-build-info/{1}",
+                              "target": "dev_proj-libs-release/{1}",
                               "flat": "false",
                               "props" : "${properties}",
                               "exclusions": [ "*.sha1", "*.md5"]
